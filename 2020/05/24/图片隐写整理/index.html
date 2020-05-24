@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="压缩包隐写整理, Ktion4 Blog">
+    <meta name="keywords" content="图片隐写整理, Ktion4 Blog">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>压缩包隐写整理 | Ktion4 Blog</title>
+    <title>图片隐写整理 | Ktion4 Blog</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">压缩包隐写整理</h1>
+                    <h1 class="description center-align post-title">图片隐写整理</h1>
                 </div>
             </div>
         </div>
@@ -454,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-05-17
+                    2020-05-24
                 </div>
                 
 
@@ -470,54 +470,135 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="压缩包隐写整理"><a href="#压缩包隐写整理" class="headerlink" title="压缩包隐写整理"></a>压缩包隐写整理</h1><p>[toc]</p>
-<h3 id="0-写在前面"><a href="#0-写在前面" class="headerlink" title="0 写在前面"></a>0 写在前面</h3><p>以下内容基于题目无密码信息提示的情况下</p>
-<p>题目有密码信息提示的情况下，就不要去硬破解了！！！</p>
-<h3 id="1-Zip压缩包"><a href="#1-Zip压缩包" class="headerlink" title="1 Zip压缩包"></a>1 Zip压缩包</h3><h4 id="1-1-Zip格式分析"><a href="#1-1-Zip格式分析" class="headerlink" title="1.1 Zip格式分析"></a>1.1 Zip格式分析</h4><p>记录之前的看到的一张图片</p>
-<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2kxLmZ1aW1nLmNvbS82OTAzNzQvN2JiNmYwNWUyNzBiZGZiZi5wbmc" alt="zip格式"></p>
-<h5 id="文件破损"><a href="#文件破损" class="headerlink" title="文件破损"></a>文件破损</h5><p>缺损文件头部或者文件尾部</p>
-<h4 id="1-2-伪加密"><a href="#1-2-伪加密" class="headerlink" title="1.2 伪加密"></a>1.2 伪加密</h4><h5 id="识别真假加密"><a href="#识别真假加密" class="headerlink" title="识别真假加密"></a>识别真假加密</h5><p><strong>真加密</strong></p>
-<p>文件数据区的全局加密为09 00(9可以为别的奇数如1)</p>
-<p><strong>伪加密</strong></p>
-<p>文件数据区的全局加密为00 00，而文件目录区的全局加密为09 00 (9可为别的奇数如1)</p>
-<p><strong>无加密</strong></p>
-<p>文件数据和目录区的全局加密都为00 00</p>
-<h5 id="伪加密破解"><a href="#伪加密破解" class="headerlink" title="伪加密破解"></a>伪加密破解</h5><p>工具：winhex、010 Editor、notepad++、7-zip</p>
-<p>方法：</p>
+                <h1 id="图片隐写分析"><a href="#图片隐写分析" class="headerlink" title="图片隐写分析"></a>图片隐写分析</h1><p>[toc]</p>
+<h2 id="文件格式"><a href="#文件格式" class="headerlink" title="文件格式"></a>文件格式</h2><h3 id="PNG文件"><a href="#PNG文件" class="headerlink" title="PNG文件"></a>PNG文件</h3><p>PNG文件头为89 50 4E 47 0D 0A 1A 0A</p>
+<p>主要数据块包括IHDR IDAT IEND</p>
+<p><strong>IHDR</strong></p>
+<p>00 00 00 0D 说明IHDR头块长为13 </p>
+<p>49 48 44 52 IHDR标识 </p>
+<p>00 00 00 08 图像的宽</p>
+<p>00 00 00 08 图像的高</p>
+<p>······</p>
+<p>36 21 A3 B8 CRC校验</p>
+<p><strong>IDAT</strong></p>
+<p>一个PNG文件可能有多个IDAT区块，IDAT区块是经过压缩的，可用zlib库查看</p>
+<p>00 00 00 27 数据长</p>
+<p>49 44 41 54 IDAT标识 </p>
+<p><strong>IEND</strong></p>
+<p>通常为00000000 49454E44 AE426082</p>
+<p><strong>考点</strong></p>
 <ul>
-<li><p>Winhex或者010 Editor打开，将文件目录区的全局加密改为00 00，即可破解。</p>
+<li><p>文件头修复</p>
 </li>
-<li><p>用7z直接打开或者用kali直接打开</p>
+<li><p>IHDR控制宽度和高度，用CRC32脚本爆破宽高，在使用winhex等工具修改</p>
+</li>
+<li><p>IDAT隐藏信息，tweakpng发现异常IDAT，在winhex中提取出来用zlib压缩得到文件后再进行相应处理</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> zlib
+
+<span class="token keyword">import</span> binascii
+
+IDAT <span class="token operator">=</span> <span class="token string">"789C7D913D48C3401CC55F53A5452A0E661071C8505DB4202AEA28552C8285D25668D5C1E4D22F68D290A4B8380AAE05073F16AB0E2ECEBA3AB80A82E0078893A393A28B94F8BFA4D022D683E37EBCBBF7B87B0708F532D3ACAE7140D36D33198B4A99ECAA147885001141CC60546696114F2DA6D1717CDDC3C7D7BB08CFEA7CEECFD1ABE62C06F824E239669836F106F1F4A66D70DE271659515689CF89C74CBA20F123D7158FDF38175C"</span><span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span>
+
+result <span class="token operator">=</span> binascii<span class="token punctuation">.</span>hexlify<span class="token punctuation">(</span>zlib<span class="token punctuation">.</span>decompress<span class="token punctuation">(</span>IDAT<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span> <span class="token punctuation">(</span>result<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span> <span class="token punctuation">(</span>len<span class="token punctuation">(</span>result<span class="token punctuation">.</span>decode<span class="token punctuation">(</span><span class="token string">'hex'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
 </li>
 </ul>
-<h4 id="1-3-真密码破解"><a href="#1-3-真密码破解" class="headerlink" title="1.3 真密码破解"></a>1.3 真密码破解</h4><h5 id="爆破密码"><a href="#爆破密码" class="headerlink" title="爆破密码"></a>爆破密码</h5><p>工具：Ziperello、AZPR</p>
-<p>方式：范围爆破、字典攻击、掩码攻击</p>
-<h5 id="明文攻击"><a href="#明文攻击" class="headerlink" title="明文攻击"></a>明文攻击</h5><p>工具：Ziperello、AZPR</p>
-<p>条件：有加密zip包中一个已知文件</p>
-<p>原理：同一个压缩包里的所有文件使用同一个密钥加密，用已知文件找加密密钥，从而解密得到其他文件</p>
-<p>方式：将已知文件压缩后用软件进行明文攻击</p>
-<h4 id="1-4-crc32碰撞"><a href="#1-4-crc32碰撞" class="headerlink" title="1.4  crc32碰撞"></a>1.4  crc32碰撞</h4><p>工具：python</p>
-<p>条件：压缩包密码无法破解，压缩包内容短</p>
-<p>方式：用脚本爆破</p>
-<h3 id="2-RAR压缩包"><a href="#2-RAR压缩包" class="headerlink" title="2 RAR压缩包"></a>2 RAR压缩包</h3><h4 id="2-1-rar文件格式"><a href="#2-1-rar文件格式" class="headerlink" title="2.1 rar文件格式"></a>2.1 rar文件格式</h4><p>RAR 文件是由许多特定的数据块组成。</p>
-<p>每个块的开由</p>
-<p>HEAD_CRC (2 bytes)  块的CRC值  5261</p>
-<p>HEAD_TYPE (1 bytes)  块类型</p>
-<p>HEAD_FLAGS (2 bytes) 块标志</p>
-<p>HEAD_SIZE (2 bytes) 块大小</p>
-<h5 id="HEAD-TYPE的几种形式"><a href="#HEAD-TYPE的几种形式" class="headerlink" title="HEAD_TYPE的几种形式"></a>HEAD_TYPE的几种形式</h5><blockquote>
-<p>注1:CRC为CRC32的低2个字节（MARK_HEAD的CRC 为固定的0x5261，非计算出来的值）<br>注2：<br>HEAD_TYPE=0x72 标记块<br>HEAD_TYPE=0x73 压缩文件头<br>HEAD_TYPE=0x74 文件头<br>HEAD_TYPE=0x75 注释头<br>HEAD_TYPE=0x76 旧风格的用户身份信息<br>HEAD_TYPE=0x77 子块<br>HEAD_TYPE=0x78 恢复纪录<br>HEAD_TYPE=0x79 用户身份信息<br>HEAD_TYPE=0x7a subblock(子块)<br>HEAD_TYPE=0x7b endblock(结束块)</p>
+<h3 id="JPG文件"><a href="#JPG文件" class="headerlink" title="JPG文件"></a>JPG文件</h3><p>文件头 FFD8FF</p>
+<p>文件尾FFD9FF</p>
+<p>其中FFC0(段标记)0011(数据长度)08(精度)03CF(图像高度)02BC(图像宽度)</p>
+<p><strong>考点</strong></p>
+<ul>
+<li>文件头修复</li>
+<li>图片高度修改</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>GIF文件头47 49 46 38</p>
+<p>PSD文件头38 42 50 53</p>
+<h2 id="常见解题"><a href="#常见解题" class="headerlink" title="常见解题"></a>常见解题</h2><h3 id="常用工具"><a href="#常用工具" class="headerlink" title="常用工具"></a>常用工具</h3><p>stegsolve、tweakpng、python、winhex、binwalk、foremost、PS</p>
+<h3 id="常见解法"><a href="#常见解法" class="headerlink" title="常见解法"></a>常见解法</h3><h4 id="初级"><a href="#初级" class="headerlink" title="初级"></a>初级</h4><ol>
+<li><p>若无法打开文件，用winhex打开后，查看文件头是否破损或者缺失进行补全</p>
+</li>
+<li><p>winhex打开文件，Crtl+F查找文本信息如flag</p>
+</li>
+<li><p>查看图片属性，寻找是否有提示信息</p>
+</li>
+<li><p>stegsolve打开查看各个通道，会有二维码、flag信息等</p>
+</li>
+<li><p>binwalk/foremost 分离图片隐藏文件</p>
+</li>
+<li><p>GIF文件处理</p>
+<ol>
+<li><p>用gifsplitter软件分离</p>
+</li>
+<li><p>用convert命令分离</p>
+<pre><code>convert test.gif flag.png</code></pre></li>
+<li><p>用python脚本分离</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> PIL <span class="token keyword">import</span> Image
+
+gif <span class="token operator">=</span> Image<span class="token punctuation">.</span>open<span class="token punctuation">(</span><span class="token string">"test.gif"</span><span class="token punctuation">)</span>
+<span class="token keyword">for</span> i<span class="token punctuation">,</span>frame <span class="token keyword">in</span> enumerate<span class="token punctuation">(</span>ImageSequence<span class="token punctuation">.</span>Iterator<span class="token punctuation">(</span>gif<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token keyword">if</span> frame<span class="token punctuation">.</span>mode <span class="token operator">==</span> <span class="token string">"JPEG"</span><span class="token punctuation">:</span>
+        frame<span class="token punctuation">.</span>save<span class="token punctuation">(</span><span class="token string">"%d.jpg"</span><span class="token operator">%</span>i<span class="token punctuation">)</span>
+  <span class="token keyword">else</span><span class="token punctuation">:</span>
+        frame<span class="token punctuation">.</span>save<span class="token punctuation">(</span><span class="token string">"%d.png"</span><span class="token operator">%</span>i<span class="token punctuation">)</span></code></pre>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="中级"><a href="#中级" class="headerlink" title="中级"></a>中级</h4><ol>
+<li><p><strong>LSB隐写</strong></p>
+<p>使用stegsolve打开Analyse-&gt;Data Extract,查看各个通道的信息。</p>
+</li>
+<li><p><strong>盲水印</strong></p>
+<p>当有两张一模一样的图片，但文件大小不同时，可以用脚本发现得到其中的盲水印</p>
+</li>
+<li><p><strong>Image Combiner</strong></p>
+<p>当有两张宽高相同的图片时可以使用stegsolve中Image Combiner</p>
+</li>
+<li><p><strong>二维码</strong></p>
+<ol>
+<li><p>QR_Research读取</p>
+</li>
+<li><p>二维码顶点补全以及二维码反色(PS打开后Crtl+I)</p>
+</li>
+<li><p>二维码模糊时，可用ps进行清晰度等等的调整。或查看可否在文件信息中找到原图，再在stegsolve中进行Image Combiner</p>
+</li>
+<li><p>当获取得到01信息时，用脚本形成二维码。</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> PIL
+<span class="token keyword">from</span> PIL <span class="token keyword">import</span> Image
+MAX <span class="token operator">=</span> <span class="token number">260</span>
+<span class="token comment" spellcheck="true"># MAX=二维码每边的像素个数</span>
+img <span class="token operator">=</span> Image<span class="token punctuation">.</span>new<span class="token punctuation">(</span><span class="token string">"RGB"</span><span class="token punctuation">,</span><span class="token punctuation">(</span>MAX<span class="token punctuation">,</span>MAX<span class="token punctuation">)</span><span class="token punctuation">)</span>
+str<span class="token operator">=</span><span class="token string">"0101·······"</span>
+i <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">for</span> y <span class="token keyword">in</span> range <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>MAX<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> x <span class="token keyword">in</span> range <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>MAX<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>str<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'1'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            img<span class="token punctuation">.</span>putpixel<span class="token punctuation">(</span><span class="token punctuation">[</span>x<span class="token punctuation">,</span>y<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            img<span class="token punctuation">.</span>putpixel<span class="token punctuation">(</span><span class="token punctuation">[</span>x<span class="token punctuation">,</span>y<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">,</span><span class="token number">255</span><span class="token punctuation">,</span><span class="token number">255</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        i <span class="token operator">=</span> i<span class="token operator">+</span><span class="token number">1</span>
+img<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+img<span class="token punctuation">.</span>save<span class="token punctuation">(</span><span class="token string">"flag.png"</span><span class="token punctuation">)</span>
+</code></pre>
+</li>
+</ol>
+</li>
+<li><p><strong>图片拼接</strong></p>
+<ol>
+<li>少量的图片拼接可使用ps，或者ppt</li>
+<li>大量细微的图片拼接，可采用linux中的指令或者自行写脚本</li>
+</ol>
+<pre><code>montage flag*.png -tile x1 -geometry +0+0 flag.png</code></pre><blockquote>
+<p>-tile 是拼接时每行每列的图片数，x1即1行</p>
+<p>-geometry是首选每个图和边框尺寸，这里边框为0</p>
 </blockquote>
-<p><a href="https://yoloyolo.top/archives/85.html" target="_blank" rel="noopener">rar格式分析</a></p>
-<h4 id="2-2其他情况"><a href="#2-2其他情况" class="headerlink" title="2.2其他情况"></a>2.2其他情况</h4><p>与Zip同种解决方法</p>
-<ul>
-<li><p>crc32爆破</p>
 </li>
-<li><p>范围爆破/字典攻击/掩码攻击</p>
+<li><p>部分图片文件可直接用7-zip打开</p>
 </li>
-<li><p>明文攻击</p>
-</li>
-</ul>
+</ol>
 
             </div>
             <hr/>
@@ -543,7 +624,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://Ktion4.github.io/2020/05/17/yasuobaozl/">https://Ktion4.github.io/2020/05/17/yasuobaozl/</a>
+                    <a href="https://Ktion4.github.io/2020/05/24/%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E6%95%B4%E7%90%86/">https://Ktion4.github.io/2020/05/24/%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E6%95%B4%E7%90%86/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -750,9 +831,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/05/24/%E5%9B%BE%E7%89%87%E9%9A%90%E5%86%99%E6%95%B4%E7%90%86/">
                     <div class="card-image">
@@ -775,9 +857,9 @@ IHDR
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-05-24
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -786,6 +868,7 @@ IHDR
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -804,27 +887,30 @@ IHDR
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/05/14/post12/">
+                <a href="/2020/05/17/yasuobaozl/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="【攻防世界】MISC高手进阶区部分wp">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="压缩包隐写整理">
                         
-                        <span class="card-title">【攻防世界】MISC高手进阶区部分wp</span>
+                        <span class="card-title">压缩包隐写整理</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            【攻防世界】MISC高手进阶区部分wp[toc]
-0.写在前面第一篇Blog，感觉写啥都可以。挑了几道有意思的题。
-1.再见李华打开压缩包后得到图片，发现上面有一串md5值，但是会发现只有17位，正常MD5为20位，猜测需要进行爆破。
-将图
+                            压缩包隐写整理[toc]
+0 写在前面以下内容基于题目无密码信息提示的情况下
+题目有密码信息提示的情况下，就不要去硬破解了！！！
+1 Zip压缩包1.1 Zip格式分析记录之前的看到的一张图片
+
+文件破损缺损文件头部或者文件尾部
+1.2 伪
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-05-17
                             </span>
                         <span class="publish-author">
                             
